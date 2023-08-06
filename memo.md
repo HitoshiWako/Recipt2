@@ -1,3 +1,4 @@
+# feature/environments
 ## 仮想環境構築
 venvにて環境を構築  
 ```
@@ -20,4 +21,13 @@ venvにて環境を構築
 ## とりあえずHello World!
 ```
 % flask --app recipt run --debug
+```
+# feature/sqlalchemy
+## Flask-SQLAlchemyのインストール
+```
+% pip install Flask-SQLAlchemy
+```
+## Flask-Migrateのインストール
+```
+% pip install Flask-Migrate
 ```
