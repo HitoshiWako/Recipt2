@@ -36,3 +36,12 @@ venvにて環境を構築
 ```
 % flask --app recipt db init
 ```
+## モデルの記載
+今回はModel.pyを作成し、Blueprintを使用しているので、とりあえず１つのBlueprint内でModelパッケージを読み込んだ上で
+```
+% flask --app recipt db migrate -m 'add Store, Recipt, Item'
+```
+うまくいったらデータベースのupgradeを実施
+```
+flask --app recipt db upgrade
+```
