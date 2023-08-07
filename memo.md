@@ -31,3 +31,8 @@ venvにて環境を構築
 ```
 % pip install Flask-Migrate
 ```
+## データベースの初期化
+以下のコマンドでdbを初期化する
+```
+% flask --app recipt db init
+```
