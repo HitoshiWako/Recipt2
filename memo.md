@@ -43,5 +43,5 @@ venvにて環境を構築
 ```
 うまくいったらデータベースのupgradeを実施
 ```
-flask --app recipt db upgrade
+% flask --app recipt db upgrade
 ```

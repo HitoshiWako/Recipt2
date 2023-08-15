@@ -1,7 +1,9 @@
-from flask import Blueprint, flash,render_template,redirect, request
+import os
+from flask import Blueprint,current_app,flash,render_template,redirect, request
 from .model import Store, Recipt, Item
+from . import db
 
-ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png'}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -20,5 +22,11 @@ def upload():
             flash('ファイルが選択されていません')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-            print(file.filename)
+            recipt = Recipt()
+            db.session.add(recipt)
+            db.session.flush()
+            filename = 'img{:08}.png'.format(recipt.id)
+            file.save(os.path.join(current_app.instance_path, current_app.config['UPLOAD_FOLDER'], filename))
+            recipt.filename = filename
+            db.session.commit()
     return render_template('recipt/upload.html')
