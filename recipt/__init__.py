@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Blueprint,Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
@@ -33,6 +33,9 @@ def create_app(test_config=None):
     Migrate(app, db)
 
     # register Blueprint
+    img_app = Blueprint("images", __name__, static_url_path='/images', static_folder=os.path.join(app.instance_path,app.config['UPLOAD_FOLDER']))
+    app.register_blueprint(img_app)
+
     from . import recipt
     app.register_blueprint(recipt.bp)
     

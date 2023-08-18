@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint,current_app,flash,render_template,redirect, request
+from flask import Blueprint,current_app,flash,render_template,redirect, request,url_for
 from .model import Store, Recipt, Item
 from . import db
 
@@ -26,7 +26,13 @@ def upload():
             db.session.add(recipt)
             db.session.flush()
             filename = 'img{:08}.png'.format(recipt.id)
-            file.save(os.path.join(current_app.instance_path, current_app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(current_app.instance_path,current_app.config['UPLOAD_FOLDER'], filename))
             recipt.filename = filename
             db.session.commit()
+            return redirect(url_for('recipt.register',id = recipt.id))
     return render_template('recipt/upload.html')
+
+@bp.route('/recipt/<int:id>',methods=('GET','PSOT'))
+def register(id):
+    recipt = db.get_or_404(Recipt, id)
+    return render_template('recipt/register.html', filename=recipt.filename)
