@@ -47,4 +47,5 @@ def register(id):
             db.session.add_all(new_items)
             db.session.commit()
             items=new_items
+            return redirect(url_for('recipt.upload'))
     return render_template('recipt/register.html', filename=recipt.filename,items=items)
