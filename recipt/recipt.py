@@ -32,7 +32,14 @@ def upload():
             return redirect(url_for('recipt.register',id = recipt.id))
     return render_template('recipt/upload.html')
 
-@bp.route('/recipt/<int:id>',methods=('GET','PSOT'))
+@bp.route('/recipt/<int:id>',methods=('GET','POST'))
 def register(id):
     recipt = db.get_or_404(Recipt, id)
+    if request.method == 'POST':
+        names = request.form.getlist('item-name')
+        prices = request.form.getlist('item-price') 
+        discounts = request.form.getlist('item-discount') 
+        items = [Item(recipt_id=recipt.id, name=name, price=price, discount=discount) for name, price,discount in zip(names,prices,discounts) if not name.isspace()] 
+        db.session.add_all(items)
+        db.session.commit()        
     return render_template('recipt/register.html', filename=recipt.filename)

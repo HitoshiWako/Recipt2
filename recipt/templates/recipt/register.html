@@ -10,5 +10,26 @@
         <div class="col-4">
             <img src="{{ url_for('images.static',filename=filename) }}" class="img-fluid">
         </div>
+        <div class="col">
+            <form method="POST">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">品名</th>
+                            <th scope="col">価格</th>
+                            <th scope="col">割引</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" class="form-control" name="item-name"></td>
+                            <td><input type="number" class="form-control" name="item-price"></td>
+                            <td><input type="number" class="form-control" name="item-discount"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="submit" class="btn btn-primary" value="登録">
+            </form>
+        </div>
     </div>
 {% endblock %}
