@@ -21,14 +21,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><input type="text" class="form-control" name="item-name"></td>
-                            <td><input type="number" class="form-control" name="item-price"></td>
-                            <td><input type="number" class="form-control" name="item-discount"></td>
-                        </tr>
+                        {% for item in items %}
+                            <tr>
+                                <td><input type="text" class="form-control" name="item-name" value="{{item.name}}"></td>
+                                <td><input type="number" class="form-control" name="item-price" value="{{item.price}}"></td>
+                                <td><input type="number" class="form-control" name="item-discount" value="{{item.discount}}"></td>
+                            </tr>
+                        {% endfor %}
+ 
+                        {% for i in range(3) %}
+                            <tr>
+                                <td><input type="text" class="form-control" name="item-name"></td>
+                                <td><input type="number" class="form-control" name="item-price"></td>
+                                <td><input type="number" class="form-control" name="item-discount"></td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                <input type="submit" class="btn btn-primary" value="登録">
+                <input type="submit" class="btn btn-primary" name="register" value="登録">
+                <input type="submit" class="btn btn-secondary" name="add-row" value="行追加">
             </form>
         </div>
     </div>
