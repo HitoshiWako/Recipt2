@@ -1,3 +1,4 @@
+import datetime
 import os
 from flask import Blueprint,current_app,flash,render_template,redirect, request,url_for
 from .model import Store, Recipt, Item
@@ -35,7 +36,10 @@ def upload():
 @bp.route('/recipt/<int:id>',methods=('GET','POST'))
 def register(id):
     recipt = db.get_or_404(Recipt, id)
+
     items = db.session.execute(db.select(Item).filter_by(recipt_id=recipt.id)).scalars()
+    if recipt.date is None:
+        recipt.date = datetime.date.today()
 
     if request.method == 'POST':
         names = request.form.getlist('item-name')
@@ -43,9 +47,10 @@ def register(id):
         discounts = request.form.getlist('item-discount') 
         new_items = [Item(recipt_id=recipt.id, name=name, price=price, discount=discount) for name, price,discount in zip(names,prices,discounts) if name and not name.isspace()] 
         if 'register' in request.form:
+            recipt.date = datetime.date.fromisoformat(request.form['purchase-date'])
             db.session.execute(db.delete(Item).where(Item.recipt_id==recipt.id))
             db.session.add_all(new_items)
             db.session.commit()
             items=new_items
             return redirect(url_for('recipt.upload'))
-    return render_template('recipt/register.html', filename=recipt.filename,items=items)
+    return render_template('recipt/register.html', recipt=recipt,items=items)
