@@ -39,6 +39,9 @@ def create_app(test_config=None):
     from . import recipt
     app.register_blueprint(recipt.bp)
     
+    from . import store
+    app.register_blueprint(store.bp)
+
     # a simple page that says hello
     @app.route('/hello')
     def hello():

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block header %}
-    {% block title %}Upload{% endblock %}
+    {% block title %}アップロード{% endblock %}
 {% endblock %}
 
 {% block content %}
-    <h1>Upload image file</h1>
+    <h1>イメージファイルのアップロード</h1>
     <form method=post enctype=multipart/form-data>
         <input type=file name=file>  
         <input type=submit value=Upload>
