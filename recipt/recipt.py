@@ -41,16 +41,21 @@ def register(id):
     if recipt.date is None:
         recipt.date = datetime.date.today()
 
+    stores = db.session.execute(db.select(Store)).scalars()
     if request.method == 'POST':
         names = request.form.getlist('item-name')
         prices = request.form.getlist('item-price') 
         discounts = request.form.getlist('item-discount') 
-        new_items = [Item(recipt_id=recipt.id, name=name, price=price, discount=discount) for name, price,discount in zip(names,prices,discounts) if name and not name.isspace()] 
+        items = [Item(recipt_id=recipt.id, name=name, price=price, discount=discount) for name, price,discount in zip(names,prices,discounts) if name and not name.isspace()] 
+        
+        recipt.date = datetime.date.fromisoformat(request.form['purchase-date'])
+        recipt.store_id = request.form['store-select'] if request.form['store-select'] else None
+            
+        db.session.execute(db.delete(Item).where(Item.recipt_id==recipt.id))
+        db.session.add_all(items)
+        db.session.commit()
         if 'register' in request.form:
-            recipt.date = datetime.date.fromisoformat(request.form['purchase-date'])
-            db.session.execute(db.delete(Item).where(Item.recipt_id==recipt.id))
-            db.session.add_all(new_items)
-            db.session.commit()
-            items=new_items
             return redirect(url_for('recipt.upload'))
-    return render_template('recipt/register.html', recipt=recipt,items=items)
+        elif 'new-store' in request.form:
+            return redirect(url_for('store.register',id=recipt.id))
+    return render_template('recipt/register.html', recipt=recipt,items=items,stores=stores)

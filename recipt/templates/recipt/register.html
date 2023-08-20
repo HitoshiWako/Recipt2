@@ -11,37 +11,57 @@
             <img src="{{ url_for('images.static',filename=recipt.filename) }}" class="img-fluid">
         </div>
         <div class="col">
-            <form method="POST">
-                <label for="purchase-date" class="form-label">購入日</label>
-                <input type="date" class="form-control" name="purchase-date" value="{{ recipt.date }}">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">品名</th>
-                            <th scope="col">価格</th>
-                            <th scope="col">割引</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in items %}
-                            <tr>
-                                <td><input type="text" class="form-control" name="item-name" value="{{item.name}}"></td>
-                                <td><input type="number" class="form-control" name="item-price" value="{{item.price}}"></td>
-                                <td><input type="number" class="form-control" name="item-discount" value="{{item.discount}}"></td>
-                            </tr>
+            <form method="POST" class="row">
+                <div class="row mb-3">
+                    <label for="purchase-date" class="form-label col-1">購入日</label>
+                    <input type="date" class="form-control col" name="purchase-date" value="{{ recipt.date }}">
+                </div>
+                <div class="row mb-3">
+                    <label for="store-select" class="form-label col-1">店舗名</label>
+                    <select class="form-select col" name="store-select">
+                        <option value="">新規登録</option>
+                        {% for store in stores %}
+                            <option value="{{ store.id }}"
+                                {% if store.id == recipt.store_id %}
+                                    selected
+                                {% endif %}
+                            >{{ store.name }}</option>
                         {% endfor %}
- 
-                        {% for i in range(3) %}
+                    </select>
+                    <input type="submit" class="btn btn-primary col-2 mx-1" name="new-store" value="修正/登録">
+                </div>
+                <div class="row mb-3">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <td><input type="text" class="form-control" name="item-name"></td>
-                                <td><input type="number" class="form-control" name="item-price"></td>
-                                <td><input type="number" class="form-control" name="item-discount"></td>
+                                <th scope="col">品名</th>
+                                <th scope="col">価格</th>
+                                <th scope="col">割引</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <input type="submit" class="btn btn-primary" name="register" value="登録">
-                <input type="submit" class="btn btn-secondary" name="add-row" value="行追加">
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td><input type="text" class="form-control" name="item-name" value="{{item.name}}"></td>
+                                    <td><input type="number" class="form-control" name="item-price" value="{{item.price}}"></td>
+                                    <td><input type="number" class="form-control" name="item-discount" value="{{item.discount}}"></td>
+                                </tr>
+                            {% endfor %}
+                            
+                            {% for i in range(3) %}
+                                <tr>
+                                    <td><input type="text" class="form-control" name="item-name"></td>
+                                    <td><input type="number" class="form-control" name="item-price"></td>
+                                    <td><input type="number" class="form-control" name="item-discount"></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mb-3">
+                    <input type="submit" class="btn btn-secondary col-1 mx-1" name="add-row" value="行追加">
+                    <input type="submit" class="btn btn-primary col-1 mx-1" name="register" value="登録">
+                </div>
             </form>
         </div>
     </div>
